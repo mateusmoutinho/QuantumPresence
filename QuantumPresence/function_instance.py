@@ -14,7 +14,7 @@ class FunctionInstance:
         self.result = None 
         self.event = None
         self._status = 'uninitialized'
-
+        self._on_end_function = None 
 
     def _execute(self):
         self._status = 'running'
@@ -28,7 +28,7 @@ class FunctionInstance:
             except Exception as e:
                 event['error'] = e
                 
-        self._process  = Process(target=target,args=[self._event])
+        self._process  = Process(target=target,args=[self._event],daemon=True)
         self._process.start()
     
 
@@ -39,7 +39,8 @@ class FunctionInstance:
             self._process.join()
             self.error = self._event['error']
             self.result = self._event['result']
-            self._on_end_function()
+            if self._on_end_function:
+                self._on_end_function()
 
         return self._status
 
