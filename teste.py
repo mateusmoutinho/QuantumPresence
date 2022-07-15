@@ -1,7 +1,7 @@
 from json import dump
 from os import mkdir
 from shutil import rmtree
-from QuantumPresence import Parallelizer
+from QuantumPresence.orquestrer import Orquestrer
 rmtree('teste',ignore_errors=True)
 mkdir('teste')
 
@@ -17,7 +17,7 @@ def executar_sem_paralelizacao():
 
 
 def executa_com_paralelizacao():
-    p = Parallelizer(instances=10)
+    p = Orquestrer(processors=10)
     def criar_arquivo(num:int):
         with open(f'teste/{num}.json','w') as arq:
             lista = []
@@ -30,6 +30,6 @@ def executa_com_paralelizacao():
         instance = p.add_function(criar_arquivo,args=[x])
 
 
-    p.start_main_loop()
+    p.start_all_processors()
 
 executa_com_paralelizacao()
