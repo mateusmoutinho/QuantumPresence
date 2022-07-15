@@ -28,13 +28,11 @@ class Parallelizer:
                 
                 if status == 'uninitialized' and self._avaliable_instances > 0:
                     instance._execute()
-                    print('inicou')
+               
                     self._avaliable_instances-=1
                 
                 if status == 'running':
-                    print('rodando')
                     if instance._update_satus() ==  'executed':
-                        print('executou')
                         self._avaliable_instances+=1
                         self._total_executed+=1
 

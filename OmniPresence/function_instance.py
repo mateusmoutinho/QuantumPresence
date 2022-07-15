@@ -30,7 +30,7 @@ class FunctionInstance:
 
     def _update_satus(self)->str:
         if not self._process.is_alive():
-            self._status == 'executed'
+            self._status = 'executed'
         return self._status
 
     def then(self):
