@@ -14,26 +14,31 @@ class Parallelizer:
         self._total_executed = 0 
         self._avaliable_instances = instances
         self._instances:List[FunctionInstance] = []
-        self._on_all_end_function = None 
-        self._on_all_end_function_executed = False 
+
 
     def add_function(self,function:Callable,args:list=[],kwargs:dict={})->FunctionInstance:    
         instance = FunctionInstance(function,args,kwargs)
         self._instances.append(instance) 
         return instance
         
-    def on_all_end(self,function:Callable,args:list=[],kwargs:dict={}):
-        self._on_all_end_function = lambda: function(*args,**kwargs) 
-    
+    def start_main_loop(self):
+        while self._total_executed < len(self._instances):
+            for instance in self._instances:
+                status = instance._status
+                
+                if status == 'uninitialized' and self._avaliable_instances > 0:
+                    instance._execute()
+                    self._avaliable_instances-=1
+                
+                if status == 'running':
+                    instance._update_satus()
+                    if instance._status == 'executed':
+                        self._avaliable_instances+=1
+                        self._total_executed+=1
 
-    def _execute_on_all_end_function(self):
-        if self._on_all_end_function and not self._on_all_end_function_executed:
-            self._on_all_end_function()
-            self._on_all_end_function_executed = True 
+        
 
 
-    def start(self):
-        for x in self._instances:
-            
+
 
 
