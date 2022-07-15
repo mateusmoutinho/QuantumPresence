@@ -10,10 +10,15 @@ def soma(x,y):
     return result
 
 p = Parallelizer(instances=10)
+atributes = {'total':0}
+
 for x in range(0,20):
-    p.add_function(soma,[x,10])
-    
+    execution_soma = p.add_function(soma,[x,10])
+    @execution_soma.on_end
+    def test(event:dict):
+        atributes['total']+= event['return']
+
+
 
 p.start_main_loop()
-for x in p._instances:
-    print(x._event)
+print(atributes)

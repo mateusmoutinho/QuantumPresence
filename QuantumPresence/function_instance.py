@@ -41,11 +41,13 @@ class FunctionInstance:
         if not self._process.is_alive():
             self._status = 'executed'
             self._process.join()
+            self._on_end_function(self._event)
             
         return self._status
 
 
-    def then(self,function:Callable):
-        pass 
+    def on_end(self,function:Callable):
+        self._on_end_function = lambda event: function(event)
+        
 
 
