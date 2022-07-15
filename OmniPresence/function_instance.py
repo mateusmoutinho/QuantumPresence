@@ -15,7 +15,7 @@ class FunctionInstance:
         self._result = None
 
     def _execute(self):
-        queue = Queue()
+        self._queue = Queue()
         self._status = 'running'
         def target(queue:Queue):
             try:
@@ -24,12 +24,14 @@ class FunctionInstance:
             except Exception as e:
                 pass
 
-        p = Process(target=target,args=[queue])
-        p.start()
+        self._process  = Process(target=target,args=[self._queue])
+        self._process.start()
     
 
-    def _update_satus(self):
-        pass 
+    def _update_satus(self)->str:
+        if not self._process.is_alive():
+            self._status == 'executed'
+        return self._status
 
     def then(self):
         pass 

@@ -4,17 +4,14 @@ from OmniPresence.parallelizer import Parallelizer
 
 
 def soma(x,y):
-    sleep(10)
+    sleep(1)
     result =  x + y 
     #print('o resultado e',result)
 
 
-p = Parallelizer(instances=5)
-for x in range(0,10):
+p = Parallelizer(instances=1)
+for x in range(0,5):
     p.add_function(soma,[x,10])
     
 
-@p.on_all_end
-def teste():
-    print('executou ao final')
-p.start()
+p.start_main_loop()
