@@ -13,8 +13,8 @@ class FunctionInstance:
         self._execute_oldest_instance:Callable = None 
 
     def _execute(self):
+        
         result = self._function(*self._args,**self._kwargs)
-        print('result',result)
         self._execute_oldest_instance()
 
     def then(self):

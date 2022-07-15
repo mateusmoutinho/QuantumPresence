@@ -17,11 +17,12 @@ class Parallelizer:
         self._on_all_end_function = None 
         self._on_all_end_function_executed = False 
 
-    def add_function(self,function:Callable,args:list=[],kwargs:dict={}):    
+    def add_function(self,function:Callable,args:list=[],kwargs:dict={})->FunctionInstance:    
         instance = FunctionInstance(function,args,kwargs)
         instance._execute_oldest_instance =lambda :self._execute_oldest_instance()
         self._instances.append(instance) 
-
+        return instance
+        
     def on_all_end(self,function:Callable,args:list=[],kwargs:dict={}):
         self._on_all_end_function = lambda: function(*args,**kwargs) 
     
