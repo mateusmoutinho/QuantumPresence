@@ -1,6 +1,7 @@
 
 
 from pyclbr import Function
+from time import sleep
 from typing import Any, Callable, List
 from QuantumPresence.function_instance import FunctionInstance
 from QuantumPresence.processor import Processor
@@ -10,10 +11,10 @@ class Orquestrer:
 
 
     
-    def __init__(self,processors:int) -> None:    
+    def __init__(self,process:int) -> None:    
         self._processors:List[Processor] = list(map(
             lambda index:Processor(),
-            range(processors)
+            range(process)
         ))
     
 
@@ -34,7 +35,7 @@ class Orquestrer:
     def start_all_processors(self):
         for processor in self._processors:
             processor.run_all_instances()
-        pass 
+        
 
 
 

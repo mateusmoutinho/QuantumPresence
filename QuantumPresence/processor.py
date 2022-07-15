@@ -8,7 +8,7 @@ class Processor:
 
     def __init__(self) -> None:
         self._instances:List[FunctionInstance] = []
-
+        
     def total_instances(self):
         return len(self._instances)
 
@@ -17,10 +17,11 @@ class Processor:
 
 
     def run_all_instances(self):
+
         def target(instances:List[FunctionInstance]):
+            
             for instance in instances:
                 instance._execute()
-        
-        p = Process(target=lambda:target(self._instances))
-        
+            
+        p = Process(target=target,args=[self._instances])
         p.start()

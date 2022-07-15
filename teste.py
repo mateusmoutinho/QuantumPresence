@@ -17,7 +17,7 @@ def executar_sem_paralelizacao():
 
 
 def executa_com_paralelizacao():
-    p = Orquestrer(processors=10)
+    p = Orquestrer(process=10)
     def criar_arquivo(num:int):
         with open(f'teste/{num}.json','w') as arq:
             lista = []
@@ -26,7 +26,7 @@ def executa_com_paralelizacao():
             dump(lista,arq)
         print(f'lista {num} completada')
     
-    for x in range(10000):
+    for x in range(1000):
         instance = p.add_function(criar_arquivo,args=[x])
 
 
