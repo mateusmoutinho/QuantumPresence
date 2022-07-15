@@ -7,6 +7,7 @@ def soma(x,y):
 
 
 
-p = Parallelizer()
-for x in range(0,10000):
-    p.add_function(soma,[10,20])
+p = Parallelizer(instances=2)
+for x in range(0,10):
+    p.add_function(soma,[x,10])
+

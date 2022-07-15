@@ -10,10 +10,12 @@ class FunctionInstance:
         self._runing = False 
         self._args = args
         self._kwargs = kwargs
+        self._execute_oldest_instance:Callable = None 
 
-    def start(self):
-        self._runing = True
-        pass 
+    def _execute(self):
+        result = self._function(*self._args,**self._kwargs)
+        print('result',result)
+        self._execute_oldest_instance()
 
     def then(self):
         pass 
