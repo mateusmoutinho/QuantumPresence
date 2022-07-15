@@ -20,8 +20,7 @@ class Processor:
         def target(instances:List[FunctionInstance]):
             for instance in instances:
                 instance._execute()
-               
-
+        
         p = Process(target=lambda:target(self._instances))
         
         p.start()
