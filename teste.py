@@ -1,5 +1,5 @@
 from time import sleep
-from OmniPresence.parallelizer import Parallelizer
+from QuantumPresence.parallelizer import Parallelizer
 
 
 
