@@ -16,19 +16,22 @@ class Orquestrer:
             lambda index:Processor(),
             range(process)
         ))
-    
+        self._lower_processor = 0 
+        
 
     def get_lower_processor(self)->int:
-        instances = list(map(
-            lambda processor:processor.total_instances(),
-            self._processors
-        ))
-        return np.argmin(instances)
-        
+        if self._lower_processor == len(self._processors) -1:
+            self._lower_processor = 0
+        else:
+            self._lower_processor +=1
+        return self._lower_processor
+
+
     def add_function(self,function:Callable,args:list=[],kwargs:dict={})->FunctionInstance:    
         instance = FunctionInstance(function,args,kwargs)
     
         index = self.get_lower_processor()
+        
         self._processors[index].add_instance(instance)
         return instance
         

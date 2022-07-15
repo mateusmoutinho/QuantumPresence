@@ -17,11 +17,9 @@ class Processor:
 
 
     def run_all_instances(self):
-
         def target(instances:List[FunctionInstance]):
             
             for instance in instances:
                 instance._execute()
-            
         p = Process(target=target,args=[self._instances])
         p.start()
