@@ -19,7 +19,6 @@ class Parallelizer:
 
     def add_function(self,function:Callable,args:list=[],kwargs:dict={})->FunctionInstance:    
         instance = FunctionInstance(function,args,kwargs)
-        instance._execute_oldest_instance =lambda :self._execute_oldest_instance()
         self._instances.append(instance) 
         return instance
         
@@ -33,16 +32,7 @@ class Parallelizer:
             self._on_all_end_function_executed = True 
 
 
-    def _execute_oldest_instance(self):
-        total_instances = len(self._instances)
-        if self._total_executed < total_instances:
-            self._total_executed+=1
-            oldest_instance = self._total_executed -1
-            self._instances[oldest_instance]._execute()
-        else:
-            self._execute_on_all_end_function()
-
-    def __del__(self):
+    def start(self):
         for x in range(self._avaliable_instances):
             self._execute_oldest_instance()
 
