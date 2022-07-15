@@ -33,8 +33,7 @@ class Parallelizer:
 
 
     def start(self):
-        for x in range(self._avaliable_instances):
-            self._execute_oldest_instance()
-
+        for x in self._instances:
+            
 
 
