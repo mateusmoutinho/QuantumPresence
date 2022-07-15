@@ -1,34 +1,30 @@
 
-from inspect import ArgSpec
 from multiprocessing import Process, Manager
-
 from typing import Callable
 
 
 class FunctionInstance:
 
     def __init__(self,function:Callable,args=[],kwargs={}) -> None:
-        self._function = function
+        self.function = function
+        self.name = function.__name__ 
+        self.args = args
+        self.kwargs = kwargs
+        self.error = None 
+        self.result = None 
+        self.event = None
         self._status = 'uninitialized'
-        
-        self._args = args
-        self._kwargs = kwargs
-        self._event = None
+
 
     def _execute(self):
         self._status = 'running'
         self._event = Manager().dict()
+
         def target(event:dict):
-            event['function_name'] =self._function.__name__
-            event['function'] = self._function
-            event['args'] = self._args
-            event['kwargs'] = self._kwargs
             event['error'] = None 
-            event['return'] = None 
- 
+            event['result'] = None 
             try:
-                return_value = self._function(*self._args,**self._kwargs)
-                event['return'] = return_value
+                event['result'] = self.function(*self.args,**self.kwargs)
             except Exception as e:
                 event['error'] = e
                 
@@ -41,13 +37,27 @@ class FunctionInstance:
         if not self._process.is_alive():
             self._status = 'executed'
             self._process.join()
-            self._on_end_function(self._event)
-            
+            self.error = self._event['error']
+            self.result = self._event['result']
+            self._on_end_function()
+
         return self._status
 
 
+    def __repr__(self) -> str:
+        
+        return f"""\
+=====================================================
+    name:{self.name},
+    args:{self.args},
+    kwargs:{self.kwargs},
+    error:{self.error},
+    result:{self.result}  
+"""
+     
+    
     def on_end(self,function:Callable):
-        self._on_end_function = lambda event: function(event)
+        self._on_end_function = lambda :function(self)
         
 
 

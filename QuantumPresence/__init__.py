@@ -1,1 +1,1 @@
-from QuantumPresence.parallelizer import Parallelizer
+from QuantumPresence.parallelizer import Parallelizer,FunctionInstance
