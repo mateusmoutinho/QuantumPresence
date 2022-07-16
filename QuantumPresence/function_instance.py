@@ -13,16 +13,8 @@ class FunctionInstance:
         self.error = None 
         self.result = None 
         self.event = None
-
         self._on_end_function = None 
 
-
-    def _execute(self):
-        try:
-           self.result = self.function(*self.args,**self.kwargs)
-        except Exception as e:
-           self.error  = e
-            
 
     def __repr__(self) -> str:
         return f"""\
